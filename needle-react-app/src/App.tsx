@@ -9,6 +9,9 @@ import {
   User,
 } from 'firebase/auth';
 
+import { MainContainer, LoginContainer } from './main.styles';
+import { PrimaryButton, SecondaryButton } from './button.styles';
+
 function App() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -52,32 +55,34 @@ function App() {
   };
 
   return (
-    <div>
-      <h1>Needle React App </h1>
-      {user ? (
-        <div>
-          <p>Welcome, {user.email}</p>
-          <button onClick={handleLogout}>Logout</button>
-        </div>
-      ) : (
-        <div>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button onClick={handleLogin}>Login</button>
-          <button onClick={handleSignUp}>Sign Up</button>
-        </div>
-      )}
-    </div>
+    <MainContainer>
+      <LoginContainer>
+        <h1>Needle React App </h1>
+        {user ? (
+          <div>
+            <p>Welcome, {user.email}</p>
+            <button onClick={handleLogout}>Logout</button>
+          </div>
+        ) : (
+          <LoginContainer>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <PrimaryButton onClick={handleLogin}>Login</PrimaryButton>
+            <SecondaryButton onClick={handleSignUp}>Sign Up</SecondaryButton>
+          </LoginContainer>
+        )}
+      </LoginContainer>
+    </MainContainer>
   );
 }
 
