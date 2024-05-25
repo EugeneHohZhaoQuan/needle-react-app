@@ -9,10 +9,12 @@ import {
   User,
 } from 'firebase/auth';
 
-import { MainContainer, LoginContainer } from './main.styles';
+import { MainContainer, LoginContainer, ButtonContainer } from './main.styles';
 import { PrimaryButton, SecondaryButton } from './button.styles';
+import { MainInput, Label } from './input.styles';
 
 function App() {
+  const [login, setLogin] = useState(true);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [user, setUser] = useState<User | null>(null);
@@ -49,6 +51,9 @@ function App() {
       );
       setUser(userCredential.user);
       setError(null); // Clear any previous error
+      setLogin(true);
+      setEmail('');
+      setPassword('');
     } catch (error: any) {
       setError(error.message);
     }
@@ -58,27 +63,78 @@ function App() {
     <MainContainer>
       <LoginContainer>
         <h1>Needle React App </h1>
-        {user ? (
-          <div>
-            <p>Welcome, {user.email}</p>
-            <button onClick={handleLogout}>Logout</button>
-          </div>
-        ) : (
+        {error !== null && <>{error}</>}
+
+        {login && (
           <LoginContainer>
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <PrimaryButton onClick={handleLogin}>Login</PrimaryButton>
-            <SecondaryButton onClick={handleSignUp}>Sign Up</SecondaryButton>
+            <div>
+              <Label htmlFor="emailInput">Email</Label>
+              <MainInput
+                id="emailInput"
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="passwordInput">Password</Label>
+              <MainInput
+                id="passwordInput"
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+
+            <ButtonContainer>
+              <PrimaryButton onClick={handleLogin}>Login</PrimaryButton>
+              <div>
+                Don't have an account ?{' '}
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setLogin(false);
+                  }}
+                >
+                  Sign Up
+                </a>
+              </div>
+            </ButtonContainer>
+          </LoginContainer>
+        )}
+
+        {!login && (
+          <LoginContainer>
+            <div>Create an account</div>
+            <div>
+              <Label htmlFor="emailInput">Email</Label>
+              <MainInput
+                id="emailInput"
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="passwordInput">Password</Label>
+              <MainInput
+                id="passwordInput"
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+
+            <ButtonContainer>
+              <SecondaryButton onClick={handleSignUp}>Sign Up</SecondaryButton>
+            </ButtonContainer>
           </LoginContainer>
         )}
       </LoginContainer>

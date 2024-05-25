@@ -11,3 +11,11 @@ export const LoginContainer = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
+export const ButtonContainer = styled.div`
+  display: grid;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+  text-align: -webkit-center;
+`;

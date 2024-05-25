@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 
 export const PrimaryButton = styled.button`
+  width: 180px;
   font-weight: 600;
 
   padding: 0.6em 1.2em;
-  margin: 0 5px;
+
   border: 1px solid transparent;
   border-radius: 8px;
 
@@ -20,10 +21,10 @@ export const PrimaryButton = styled.button`
 `;
 
 export const SecondaryButton = styled.button`
+  width: 180px;
   font-weight: 600;
 
   padding: 0.6em 1.2em;
-  margin: 0 5px;
 
   border: 1px solid #f3b64c;
   border-radius: 8px;
