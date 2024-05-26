@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { getBreedList, getBreedImage } from './api/useDataApi';
 import { saveLike } from './api/useFireStore';
 
-import { FeedContainer, ImageCard } from './Feed.styles';
+import { FeedContainer, ImageContainer, ImageCard } from './Feed.styles';
 import { PrimaryButton } from './button.styles';
 
 import { useSelector } from 'react-redux';
@@ -60,21 +60,24 @@ export const Feed = ({ selectedBreeds }: FeedProps) => {
   return (
     <FeedContainer>
       {imageSources.map((obj, index) => (
-        <ImageCard>
-          <img
-            key={index}
-            src={obj.src}
-            alt={`Image ${index + 1}`}
-            height={200}
-            width={200}
-          />
+        <ImageContainer>
+          <ImageCard>
+            <img
+              key={index}
+              src={obj.src}
+              alt={`Image ${index + 1}`}
+              height={200}
+              width={200}
+              sizes="stretch"
+            />
+          </ImageCard>
           <PrimaryButton
             style={{ width: '100%' }}
             onClick={() => handleLikeClicked(obj)}
           >
             Like
           </PrimaryButton>
-        </ImageCard>
+        </ImageContainer>
       ))}
     </FeedContainer>
   );

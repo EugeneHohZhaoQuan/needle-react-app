@@ -10,7 +10,7 @@ export const MainInput = styled.input`
   border-radius: 8px;
   border-color: #ccc;
   text-indent: 5px;
-  width: 100%;
+  width: 96%;
   height: 35px;
 `;
 

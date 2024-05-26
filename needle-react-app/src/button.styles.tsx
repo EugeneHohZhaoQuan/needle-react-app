@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const PrimaryButton = styled.button`
-  width: 180px;
+  width: 100%;
   font-weight: 600;
 
   padding: 0.6em 1.2em;
@@ -30,7 +30,7 @@ export const PrimaryButton = styled.button`
 `;
 
 export const SecondaryButton = styled.button`
-  width: 180px;
+  width: 100%;
   font-weight: 600;
 
   padding: 0.6em 1.2em;

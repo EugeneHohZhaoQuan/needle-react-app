@@ -5,6 +5,8 @@ import { useDispatch } from 'react-redux';
 import { setUsername, clearUsername } from './store/userSlice';
 import { useNavigate } from 'react-router-dom';
 
+import { HeaderContainer, LogoutButton } from './Header.styles';
+
 export const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -20,9 +22,10 @@ export const Header = () => {
   };
 
   return (
-    <>
-      <button onClick={() => handleLogout()}>Logout</button>
-    </>
+    <HeaderContainer>
+      <h1>Woof</h1>
+      <LogoutButton onClick={() => handleLogout()}>Logout</LogoutButton>
+    </HeaderContainer>
   );
 };
 

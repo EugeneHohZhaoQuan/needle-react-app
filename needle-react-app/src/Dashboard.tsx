@@ -8,6 +8,7 @@ import {
   Dropdown,
   DropdownButton,
   DropdownContent,
+  DashboardContainer,
   CheckboxGrid,
   CheckboxInput,
   CheckboxItem,
@@ -75,59 +76,10 @@ export const Dashboard = () => {
   };
 
   return (
-    <MainContainer>
-      {!showFeed && (
+    <>
+      <DashboardContainer>
         <div>
-          {
-            <PrimaryButton
-              disabled={selectedBreeds.length === 3 ? false : true}
-              onClick={() => setShowFeed(!showFeed)}
-            >
-              {' '}
-              Go to Feed
-            </PrimaryButton>
-          }
           <h2>Select dog breeds:</h2>
-          {/* <Dropdown>
-        <DropdownButton onClick={toggleDropdown}>Select Breeds</DropdownButton>
-        <DropdownContent isOpen={dropdownOpen}>
-          {breeds.length > 0 &&
-            breeds.map((breed) => (
-              <BreedCheckbox
-                key={breed}
-                onClick={() => handleCheckboxChange(breed)}
-              >
-                <label>
-                  <input
-                    type="checkbox"
-                    value={breed}
-                    checked={selectedBreeds.includes(breed)}
-                    onChange={() => {}}
-                  />
-                  {breed}
-                </label>
-              </BreedCheckbox>
-            ))}
-        </DropdownContent>
-      </Dropdown>
-      {selectedBreeds.length > 0 && (
-        <>
-          <div>
-            <h3>Selected Breeds:</h3>
-            <ul>
-              {selectedBreeds.map((breed) => (
-                <li key={breed}>{breed}</li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            {imageSources.map((src, index) => (
-              <img key={index} src={src} alt={`Image ${index + 1}`} />
-            ))}
-          </div>
-        </>
-      )} */}
-
           <CheckboxGrid>
             {breeds.length > 0 &&
               breeds.map((option, index) => (
@@ -148,7 +100,7 @@ export const Dashboard = () => {
                 </CheckboxItem>
               ))}
           </CheckboxGrid>
-          {selectedBreeds.length > 0 && (
+          {/* {selectedBreeds.length > 0 && (
             <>
               <div>
                 <h3>Selected Breeds:</h3>
@@ -158,23 +110,13 @@ export const Dashboard = () => {
                   ))}
                 </ul>
               </div>
-              <div>
-                {imageSources.map((src, index) => (
-                  <img
-                    key={index}
-                    src={src}
-                    alt={`Image ${index + 1}`}
-                    height={200}
-                    width={200}
-                  />
-                ))}
-              </div>
             </>
-          )}
+          )} */}
         </div>
-      )}
-      {showFeed && <Feed selectedBreeds={selectedBreeds} />}
-    </MainContainer>
+
+        <Feed selectedBreeds={selectedBreeds} />
+      </DashboardContainer>
+    </>
   );
 };
 

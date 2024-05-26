@@ -4,12 +4,13 @@ export const MainContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 90vh;
 `;
 
 export const LoginContainer = styled.div`
   display: block;
-  align-items: center;
-  justify-content: center;
+  text-align: center;
+  width: 380px;
 `;
 
 export const ButtonContainer = styled.div`
@@ -18,4 +19,8 @@ export const ButtonContainer = styled.div`
   gap: 10px;
   margin-top: 10px;
   text-align: -webkit-center;
+`;
+
+export const InputContainer = styled.div`
+  margin-bottom: 2.67rem;
 `;

@@ -13,7 +13,12 @@ import {
 import { useDispatch } from 'react-redux';
 import { setUsername, clearUsername } from './store/userSlice';
 
-import { MainContainer, LoginContainer, ButtonContainer } from './main.styles';
+import {
+  MainContainer,
+  LoginContainer,
+  ButtonContainer,
+  InputContainer,
+} from './main.styles';
 import { PrimaryButton, SecondaryButton } from './button.styles';
 import { MainInput, Label } from './input.styles';
 
@@ -62,33 +67,34 @@ function Login() {
   return (
     <MainContainer>
       <LoginContainer>
-        <h1>Needle React App </h1>
+        <h1>Woof</h1>
         {error !== null && <>{error}</>}
 
         {login && (
           <LoginContainer>
-            <div>
-              <Label htmlFor="emailInput">Email</Label>
-              <MainInput
-                id="emailInput"
-                type="email"
-                placeholder="Enter your email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
+            <InputContainer>
+              <div>
+                <Label htmlFor="emailInput">Email</Label>
+                <MainInput
+                  id="emailInput"
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
 
-            <div>
-              <Label htmlFor="passwordInput">Password</Label>
-              <MainInput
-                id="passwordInput"
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-
+              <div>
+                <Label htmlFor="passwordInput">Password</Label>
+                <MainInput
+                  id="passwordInput"
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+            </InputContainer>
             <ButtonContainer>
               <PrimaryButton onClick={handleLogin}>Login</PrimaryButton>
               <div>
@@ -109,7 +115,7 @@ function Login() {
 
         {!login && (
           <LoginContainer>
-            <div>Create an account</div>
+            <h2>Create an account</h2>
             <div>
               <Label htmlFor="emailInput">Email</Label>
               <MainInput
@@ -134,6 +140,18 @@ function Login() {
 
             <ButtonContainer>
               <SecondaryButton onClick={handleSignUp}>Sign Up</SecondaryButton>
+              <div>
+                Return to{' '}
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setLogin(true);
+                  }}
+                >
+                  Login
+                </a>
+              </div>
             </ButtonContainer>
           </LoginContainer>
         )}
