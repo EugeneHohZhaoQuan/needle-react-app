@@ -14,10 +14,19 @@ export const PrimaryButton = styled.button`
   transition: background-color 0.25s;
 
   cursor: pointer;
-
   &:hover {
     background-color: #e3960f;
   }
+
+  ${({ disabled }) =>
+    disabled &&
+    `
+      background-color: #fdf0db;
+      cursor: not-allowed;
+      &:hover {
+        background-color: #fdf0db;
+      }
+  `}
 `;
 
 export const SecondaryButton = styled.button`
@@ -39,4 +48,14 @@ export const SecondaryButton = styled.button`
   &:hover {
     background-color: #fdf0db;
   }
+
+  ${({ disabled }) =>
+    disabled &&
+    `
+      background-color: #fdf0db;
+      cursor: not-allowed;
+      &:hover {
+        background-color: #fdf0db;
+      }
+  `}
 `;
