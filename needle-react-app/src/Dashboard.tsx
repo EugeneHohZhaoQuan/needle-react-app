@@ -13,6 +13,7 @@ import {
   CheckboxItem,
 } from './Dashboard.styles';
 import { PrimaryButton } from './button.styles';
+import Feed from './Feed';
 
 export const Dashboard = () => {
   const [breeds, setBreeds] = useState<string[]>([]);
@@ -20,6 +21,7 @@ export const Dashboard = () => {
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const [imageSources, setImageSources] = useState<string[]>([]);
   const [checkBoxFlag, setCheckBoxFlag] = useState(false);
+  const [showFeed, setShowFeed] = useState(false);
 
   useEffect(() => {
     fetchBreeds();
@@ -74,15 +76,19 @@ export const Dashboard = () => {
 
   return (
     <MainContainer>
-      <div>
-        {
-          <PrimaryButton disabled={selectedBreeds.length === 3 ? false : true}>
-            {' '}
-            Go to Feed
-          </PrimaryButton>
-        }
-        <h2>Select dog breeds:</h2>
-        {/* <Dropdown>
+      {!showFeed && (
+        <div>
+          {
+            <PrimaryButton
+              disabled={selectedBreeds.length === 3 ? false : true}
+              onClick={() => setShowFeed(!showFeed)}
+            >
+              {' '}
+              Go to Feed
+            </PrimaryButton>
+          }
+          <h2>Select dog breeds:</h2>
+          {/* <Dropdown>
         <DropdownButton onClick={toggleDropdown}>Select Breeds</DropdownButton>
         <DropdownContent isOpen={dropdownOpen}>
           {breeds.length > 0 &&
@@ -122,50 +128,52 @@ export const Dashboard = () => {
         </>
       )} */}
 
-        <CheckboxGrid>
-          {breeds.length > 0 &&
-            breeds.map((option, index) => (
-              <CheckboxItem
-                key={index}
-                //onClick={() => handleCheckboxChange(option)}
-              >
-                <CheckboxInput
-                  type="checkbox"
-                  value={option}
-                  checked={selectedBreeds.includes(option)}
-                  onChange={() => handleCheckboxChange(option)}
-                  disabled={
-                    selectedBreeds.includes(option) ? false : checkBoxFlag
-                  }
-                />
-                <label>{option}</label>
-              </CheckboxItem>
-            ))}
-        </CheckboxGrid>
-        {selectedBreeds.length > 0 && (
-          <>
-            <div>
-              <h3>Selected Breeds:</h3>
-              <ul>
-                {selectedBreeds.map((breed) => (
-                  <li key={breed}>{breed}</li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              {imageSources.map((src, index) => (
-                <img
+          <CheckboxGrid>
+            {breeds.length > 0 &&
+              breeds.map((option, index) => (
+                <CheckboxItem
                   key={index}
-                  src={src}
-                  alt={`Image ${index + 1}`}
-                  height={200}
-                  width={200}
-                />
+                  //onClick={() => handleCheckboxChange(option)}
+                >
+                  <CheckboxInput
+                    type="checkbox"
+                    value={option}
+                    checked={selectedBreeds.includes(option)}
+                    onChange={() => handleCheckboxChange(option)}
+                    disabled={
+                      selectedBreeds.includes(option) ? false : checkBoxFlag
+                    }
+                  />
+                  <label>{option}</label>
+                </CheckboxItem>
               ))}
-            </div>
-          </>
-        )}
-      </div>
+          </CheckboxGrid>
+          {selectedBreeds.length > 0 && (
+            <>
+              <div>
+                <h3>Selected Breeds:</h3>
+                <ul>
+                  {selectedBreeds.map((breed) => (
+                    <li key={breed}>{breed}</li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                {imageSources.map((src, index) => (
+                  <img
+                    key={index}
+                    src={src}
+                    alt={`Image ${index + 1}`}
+                    height={200}
+                    width={200}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      )}
+      {showFeed && <Feed selectedBreeds={selectedBreeds} />}
     </MainContainer>
   );
 };

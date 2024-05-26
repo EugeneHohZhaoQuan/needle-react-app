@@ -10,6 +10,9 @@ import {
   User,
 } from 'firebase/auth';
 
+import { useDispatch } from 'react-redux';
+import { setUsername, clearUsername } from './store/userSlice';
+
 import { MainContainer, LoginContainer, ButtonContainer } from './main.styles';
 import { PrimaryButton, SecondaryButton } from './button.styles';
 import { MainInput, Label } from './input.styles';
@@ -22,6 +25,7 @@ function Login() {
   const [error, setError] = useState<string | null>(null);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleLogin = async () => {
     try {
@@ -30,19 +34,11 @@ function Login() {
         email,
         password,
       );
+      dispatch(setUsername(email));
       //setUser(userCredential.user);
       navigate('/dashboard');
     } catch (error) {
       console.error('Error logging in: ', error);
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      setUser(null);
-    } catch (error) {
-      console.error('Error logging out: ', error);
     }
   };
 
