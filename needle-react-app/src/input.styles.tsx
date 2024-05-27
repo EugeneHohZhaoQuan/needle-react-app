@@ -12,6 +12,21 @@ export const MainInput = styled.input`
   text-indent: 5px;
   width: 96%;
   height: 35px;
+
+  &:hover {
+    border: 1px solid #f8d393;
+  }
+
+  &::placeholder {
+    color: #ccc;
+  }
+
+  &:focus,
+  &:focus-visible,
+  &:active {
+    border: 2px solid #f3b74c !important; /* Added !important for specificity */
+    outline: none; /* Remove default outline */
+  }
 `;
 
 export const Label = styled.label`
@@ -31,4 +46,5 @@ export const Label = styled.label`
   color: #999;
   background-color: #fff;
   font-size: 15px;
+  font-weight: 400;
 `;

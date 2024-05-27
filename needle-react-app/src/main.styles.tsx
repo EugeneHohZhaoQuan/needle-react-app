@@ -11,6 +11,11 @@ export const LoginContainer = styled.div`
   display: block;
   text-align: center;
   width: 380px;
+
+  border: 2px solid #a3a3a3;
+  border-radius: 8px;
+
+  padding: 20px;
 `;
 
 export const ButtonContainer = styled.div`

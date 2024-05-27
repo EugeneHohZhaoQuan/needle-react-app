@@ -71,7 +71,7 @@ function Login() {
         {error !== null && <>{error}</>}
 
         {login && (
-          <LoginContainer>
+          <div>
             <InputContainer>
               <div>
                 <Label htmlFor="emailInput">Email</Label>
@@ -89,7 +89,7 @@ function Login() {
                 <MainInput
                   id="passwordInput"
                   type="password"
-                  placeholder="Password"
+                  placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
@@ -110,18 +110,18 @@ function Login() {
                 </a>
               </div>
             </ButtonContainer>
-          </LoginContainer>
+          </div>
         )}
 
         {!login && (
-          <LoginContainer>
+          <div>
             <h2>Create an account</h2>
             <div>
               <Label htmlFor="emailInput">Email</Label>
               <MainInput
                 id="emailInput"
                 type="email"
-                placeholder="Enter your email"
+                placeholder="Enter email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -132,14 +132,14 @@ function Login() {
               <MainInput
                 id="passwordInput"
                 type="password"
-                placeholder="Password"
+                placeholder="Enter password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
 
             <ButtonContainer>
-              <SecondaryButton onClick={handleSignUp}>Sign Up</SecondaryButton>
+              <PrimaryButton onClick={handleSignUp}>Sign Up</PrimaryButton>
               <div>
                 Return to{' '}
                 <a
@@ -153,7 +153,7 @@ function Login() {
                 </a>
               </div>
             </ButtonContainer>
-          </LoginContainer>
+          </div>
         )}
       </LoginContainer>
     </MainContainer>
