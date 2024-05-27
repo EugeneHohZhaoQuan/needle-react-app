@@ -23,7 +23,15 @@ export const ImageCard = styled.div`
   box-shadow: 1px 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;
 
+  padding: 20px;
+  height: 460px;
+
   &:hover {
     box-shadow: 1px 8px 16px 0 rgba(0, 0, 0, 0.2);
   }
+`;
+
+export const FeedButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
