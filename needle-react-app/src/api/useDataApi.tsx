@@ -13,7 +13,7 @@ const getBreedList = async () => {
 const getBreedImage = async (breed: string) => {
   try {
     const response = await axios.get(
-      `https://dog.ceo/api/breed/${breed}/images/random`,
+      `https://dog.ceo/api/breed/${breed}/images/random/10`,
     );
 
     return response.data.message;

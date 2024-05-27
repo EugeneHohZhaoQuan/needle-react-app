@@ -8,6 +8,10 @@ import {
   ImageContainer,
   ImageCard,
   FeedButtonContainer,
+  LikeButton,
+  ImageOverlay,
+  Description,
+  ImageElement,
 } from './Feed.styles';
 import { PrimaryButton, SecondaryButton } from './button.styles';
 
@@ -21,13 +25,14 @@ interface FeedProps {
 
 interface ImageSource {
   breed: string;
-  src: string;
+  src: string[];
 }
 
 export const Feed = ({ selectedBreeds }: FeedProps) => {
   const username = useSelector((state: RootState) => selectUsername(state));
 
   const [imageSources, setImageSources] = useState<ImageSource[]>([]);
+  const [sources, setSources] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -42,8 +47,17 @@ export const Feed = ({ selectedBreeds }: FeedProps) => {
       setImageSources(sources);
     };
 
+    console.log(selectedBreeds);
     fetchImageSources();
   }, [selectedBreeds]);
+
+  useEffect(() => {
+    {
+      imageSources.map((obj) =>
+        obj.src.map((data, index) => console.log(data)),
+      );
+    }
+  }, [imageSources]);
 
   const fetchBreedImage = async (breed: string) => {
     const img = await getBreedImage(breed);
@@ -63,10 +77,9 @@ export const Feed = ({ selectedBreeds }: FeedProps) => {
   //   );
   // };
 
-  const handleLikeClicked = async () => {
+  const handleLikeClicked = async (breed: string, src: string) => {
     const currentSource = imageSources[currentIndex];
-    if (username)
-      await saveLike(username, currentSource.breed, currentSource.src);
+    if (username) await saveLike(username, breed, src);
 
     const newSrc = await fetchBreedImage(currentSource.breed);
 
@@ -79,69 +92,46 @@ export const Feed = ({ selectedBreeds }: FeedProps) => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % imageSources.length);
   };
 
-  const handleUnlikeClicked = async () => {
-    const currentSource = imageSources[currentIndex];
+  // const handleUnlikeClicked = async () => {
+  //   const currentSource = imageSources[currentIndex];
 
-    const newSrc = await fetchBreedImage(currentSource.breed);
+  //   const newSrc = await fetchBreedImage(currentSource.breed);
 
-    setImageSources((prevSources) =>
-      prevSources.map((source, index) =>
-        index === currentIndex ? { ...source, src: newSrc } : source,
-      ),
-    );
+  //   setImageSources((prevSources) =>
+  //     prevSources.map((source, index) =>
+  //       index === currentIndex ? { ...source, src: newSrc } : source,
+  //     ),
+  //   );
 
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % imageSources.length);
-  };
+  //   setCurrentIndex((prevIndex) => (prevIndex + 1) % imageSources.length);
+  // };
 
-  if (imageSources.length === 0) return null;
+  // if (imageSources.length === 0) return null;
 
   return (
     <FeedContainer>
-      {/* {imageSources.map((obj, index) => (
-        <ImageContainer>
-          <ImageCard>
-            <img
-              key={index}
-              src={obj.src}
-              alt={`Image ${index + 1}`}
-              height={200}
-              width={200}
-              sizes="stretch"
-            />
-          </ImageCard>
-          <PrimaryButton
-            style={{ width: '100%' }}
-            onClick={() => handleLikeClicked(obj)}
-          >
-            Like
-          </PrimaryButton>
-        </ImageContainer>
-      ))} */}
-
-      <ImageContainer>
-        <ImageCard>
-          <img
-            src={imageSources[currentIndex].src}
-            height={400}
-            width={400}
-            alt={`Breed: ${imageSources[currentIndex].breed}`}
-          />
-        </ImageCard>
-        <h3>{imageSources[currentIndex].breed}</h3>
-
-        <FeedButtonContainer>
-          <SecondaryButton
-            style={{ width: '40%' }}
-            onClick={handleUnlikeClicked}
-          >
-            Nope
-          </SecondaryButton>
-
-          <PrimaryButton style={{ width: '40%' }} onClick={handleLikeClicked}>
-            Like
-          </PrimaryButton>
-        </FeedButtonContainer>
-      </ImageContainer>
+      {imageSources.map((obj) =>
+        obj.src.map((data, index) => (
+          <ImageContainer key={index}>
+            <ImageCard>
+              <ImageElement
+                src={data}
+                alt={`Image ${index + 1}`}
+                sizes="stretch"
+              />
+              <ImageOverlay className="image-overlay">
+                <Description className="description">{obj.breed}</Description>
+                <LikeButton
+                  className="like-button"
+                  onClick={() => handleLikeClicked(obj.breed, data)}
+                >
+                  Like
+                </LikeButton>
+              </ImageOverlay>
+            </ImageCard>
+          </ImageContainer>
+        )),
+      )}
     </FeedContainer>
   );
 };

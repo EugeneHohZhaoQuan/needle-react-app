@@ -73,8 +73,4 @@ export const CheckboxInput = styled.input`
   margin-right: 5px; /* Adjust margin as needed */
 `;
 
-export const DashboardContainer = styled.div`
-  display: grid;
-  align-items: center;
-  justify-content: center;
-`;
+export const DashboardContainer = styled.div``;
