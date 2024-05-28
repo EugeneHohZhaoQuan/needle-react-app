@@ -31,20 +31,20 @@ export const MainInput = styled.input`
 
 export const Label = styled.label`
   border: 1px solid transparent;
-  line-height: 30px;
+
   height: 30px;
-  padding: 0;
+  padding: 4px;
 
   z-index: 2;
   float: left;
   height: 10px;
-  line-height: 10px;
-  padding: 0px 5px 0px 5px;
+  line-height: 16px;
+
   position: relative;
   left: 8px;
   top: 6px;
   color: #999;
   background-color: #fff;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 400;
 `;
