@@ -1,13 +1,14 @@
-import React from 'react';
+import { Logo, Content } from './Sidebar.styles';
 
 export const Sidebar = () => {
   return (
-    <aside style={{ width: '200px', background: '#f4f4f4', padding: '20px' }}>
-      <ul>
-        <li>Home</li>
-        <li>About</li>
-        <li>Contact</li>
-      </ul>
-    </aside>
+    <div style={{ width: '200px', background: '#f4f4f4' }}>
+      <Logo>
+        <a>logo</a>
+      </Logo>
+      <Content selected={true}>Feed</Content>
+      <Content>About</Content>
+      <Content>Contact</Content>
+    </div>
   );
 };

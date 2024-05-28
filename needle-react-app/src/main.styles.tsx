@@ -4,7 +4,8 @@ export const MainContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 90vh;
+  height: 100vh;
+  background: linear-gradient(90deg, #fefaf3, #f7ce87);
 `;
 
 export const LoginContainer = styled.div`

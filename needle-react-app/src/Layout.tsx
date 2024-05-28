@@ -1,7 +1,6 @@
-// Layout.tsx
 import React from 'react';
 import { Header } from './Header';
-import { LayoutContainer, MainContent } from './Layout.styles';
+import { LayoutContainer, MainContent, MainContainer } from './Layout.styles';
 import { Sidebar } from './Sidebar';
 
 interface LayoutProps {
@@ -11,11 +10,11 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   return (
     <LayoutContainer>
-      <Header />
-      <div className="layout-content">
-        {/* <Sidebar /> */}
+      <Sidebar />
+      <MainContainer>
+        <Header />
         <MainContent>{children}</MainContent>
-      </div>
+      </MainContainer>
     </LayoutContainer>
   );
 };

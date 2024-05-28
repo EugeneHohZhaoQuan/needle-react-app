@@ -22,9 +22,18 @@ import {
 import { PrimaryButton, SecondaryButton } from './button.styles';
 import { MainInput, Label } from './input.styles';
 
+const isValidEmail = (email: string) => {
+  // Regular expression for email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
 function Login() {
   const [login, setLogin] = useState(true);
+
   const [email, setEmail] = useState<string>('');
+  const [isValid, setIsValid] = useState(true);
+
   const [password, setPassword] = useState<string>('');
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -34,16 +43,24 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      );
+      await signInWithEmailAndPassword(auth, email, password);
       dispatch(setUsername(email));
-      //setUser(userCredential.user);
+      reset();
       navigate('/dashboard');
-    } catch (error) {
-      console.error('Error logging in: ', error);
+    } catch (error: any) {
+      if (error.code === 'auth/user-not-found') {
+        setError('User not found. Please check your email or register.');
+      } else if (error.code === 'auth/wrong-password') {
+        setError('Incorrect password. Please try again.');
+      } else if (error.code === 'auth/invalid-credential') {
+        setError('Invalid credentials. Please try again.');
+      } else if (error.code === 'auth/too-many-requests') {
+        setError(
+          'Access to this account has been temporarily disabled due to many failed login attempts. You can immediately restore it by resetting your password or you can try again later',
+        );
+      } else {
+        setError('An error occurred while logging in. Please try again later.');
+      }
     }
   };
 
@@ -55,32 +72,48 @@ function Login() {
         password,
       );
       setUser(userCredential.user);
-      setError(null); // Clear any previous error
       setLogin(true);
-      setEmail('');
-      setPassword('');
+      reset();
     } catch (error: any) {
       setError(error.message);
     }
   };
 
+  const reset = () => {
+    setEmail('');
+    setError('');
+    setPassword('');
+  };
+
   return (
     <MainContainer>
       <LoginContainer>
-        <h1>Woof</h1>
-        {error !== null && <>{error}</>}
-
         {login && (
           <div>
+            <h1>Login</h1>
+            <h3>Enter your credentials</h3>
             <InputContainer>
+              {!isValid && (
+                <p style={{ color: 'red' }}>
+                  Please enter a valid email address.
+                </p>
+              )}
+
+              {error !== null && <p style={{ color: 'red' }}>{error}</p>}
               <div>
                 <Label htmlFor="emailInput">Email</Label>
                 <MainInput
                   id="emailInput"
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder="Enter you email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setIsValid(isValidEmail(e.target.value));
+                  }}
+                  style={{
+                    border: isValid ? '' : '2px solid red',
+                  }}
                 />
               </div>
 
@@ -104,6 +137,7 @@ function Login() {
                   onClick={(e) => {
                     e.preventDefault();
                     setLogin(false);
+                    reset();
                   }}
                 >
                   Sign Up
@@ -116,6 +150,11 @@ function Login() {
         {!login && (
           <div>
             <h2>Create an account</h2>
+            {!isValid && (
+              <p style={{ color: 'red' }}>
+                Please enter a valid email address.
+              </p>
+            )}
             <div>
               <Label htmlFor="emailInput">Email</Label>
               <MainInput
@@ -123,7 +162,13 @@ function Login() {
                 type="email"
                 placeholder="Enter email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setIsValid(isValidEmail(e.target.value));
+                }}
+                style={{
+                  border: isValid ? '' : '2px solid red',
+                }}
               />
             </div>
 
@@ -147,6 +192,7 @@ function Login() {
                   onClick={(e) => {
                     e.preventDefault();
                     setLogin(true);
+                    reset();
                   }}
                 >
                   Login
