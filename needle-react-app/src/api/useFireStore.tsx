@@ -7,6 +7,9 @@ import {
   getDoc,
   setDoc,
   collection,
+  query,
+  where,
+  getDocs,
 } from 'firebase/firestore';
 
 const saveLike = async (username: string, breed: string, src: string) => {
@@ -38,4 +41,24 @@ const saveFavoritedBreeds = async (username: string, breeds: string[]) => {
   await setDoc(userRef, { breeds });
 };
 
-export { saveLike, getFavoritedBreeds, saveFavoritedBreeds };
+const getUserLikes = async (username: string) => {
+  try {
+    const q = query(
+      collection(firestore, 'likes'),
+      where('username', '==', username),
+    );
+    const querySnapshot = await getDocs(q);
+
+    const likes = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    return likes;
+  } catch (e) {
+    console.error('Error fetching documents: ', e);
+    throw new Error('Error fetching likes');
+  }
+};
+
+export { saveLike, getFavoritedBreeds, saveFavoritedBreeds, getUserLikes };

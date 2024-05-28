@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 
-import { getBreedList, getBreedImage } from './api/useDataApi';
+import {
+  getBreedList,
+  getBreedImage,
+  getBreedOnlyImage,
+} from './api/useDataApi';
 import { saveLike } from './api/useFireStore';
 
 import {
@@ -28,11 +32,17 @@ interface ImageSource {
   src: string[];
 }
 
+interface Source {
+  no: string;
+  breed: string;
+  src: string;
+}
+
 export const Feed = ({ selectedBreeds }: FeedProps) => {
   const username = useSelector((state: RootState) => selectUsername(state));
 
   const [imageSources, setImageSources] = useState<ImageSource[]>([]);
-  const [sources, setSources] = useState<string[]>([]);
+  const [sources, setSources] = useState<Source[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
@@ -47,16 +57,29 @@ export const Feed = ({ selectedBreeds }: FeedProps) => {
       setImageSources(sources);
     };
 
-    console.log(selectedBreeds);
     fetchImageSources();
   }, [selectedBreeds]);
 
   useEffect(() => {
-    {
-      imageSources.map((obj) =>
-        obj.src.map((data, index) => console.log(data)),
-      );
+    let i = 0;
+
+    function shuffleArray(array: any) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
     }
+
+    const result = imageSources.flatMap((item, index) =>
+      item.src.map((src) => ({
+        no: i++,
+        breed: item.breed,
+        src: src,
+      })),
+    );
+
+    setSources(shuffleArray(result));
   }, [imageSources]);
 
   const fetchBreedImage = async (breed: string) => {
@@ -65,73 +88,64 @@ export const Feed = ({ selectedBreeds }: FeedProps) => {
     return img;
   };
 
-  // const handleLikeClicked = async (obj: ImageSource) => {
-  //   if (username) await saveLike(username, obj.breed, obj.src);
+  const fetchOnlyBreedImage = async (breed: string) => {
+    const img = await getBreedOnlyImage(breed);
 
-  //   const src = await fetchBreedImage(obj.breed);
+    return img;
+  };
 
-  //   setImageSources((prevSources) =>
-  //     prevSources.map((source) =>
-  //       source.breed === obj.breed ? { ...source, src: src } : source,
-  //     ),
-  //   );
-  // };
-
-  const handleLikeClicked = async (breed: string, src: string) => {
+  const handleLikeClicked = async (
+    breed: string,
+    src: string,
+    data: Source,
+  ) => {
     const currentSource = imageSources[currentIndex];
     if (username) await saveLike(username, breed, src);
 
-    const newSrc = await fetchBreedImage(currentSource.breed);
+    const newSrc = await fetchOnlyBreedImage(currentSource.breed);
 
-    setImageSources((prevSources) =>
-      prevSources.map((source, index) =>
-        index === currentIndex ? { ...source, src: newSrc } : source,
+    setSources((prev) =>
+      prev.map((prevData, index) =>
+        prevData.no === data.no ? { ...prevData, src: newSrc } : prevData,
       ),
     );
 
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % imageSources.length);
+    // setImageSources((prevSources) =>
+    //   prevSources.map((source, index) =>
+    //     index === currentIndex ? { ...source, src: newSrc } : source,
+    //   ),
+    // );
+
+    // setCurrentIndex((prevIndex) => (prevIndex + 1) % imageSources.length);
   };
-
-  // const handleUnlikeClicked = async () => {
-  //   const currentSource = imageSources[currentIndex];
-
-  //   const newSrc = await fetchBreedImage(currentSource.breed);
-
-  //   setImageSources((prevSources) =>
-  //     prevSources.map((source, index) =>
-  //       index === currentIndex ? { ...source, src: newSrc } : source,
-  //     ),
-  //   );
-
-  //   setCurrentIndex((prevIndex) => (prevIndex + 1) % imageSources.length);
-  // };
-
-  // if (imageSources.length === 0) return null;
 
   return (
     <FeedContainer>
-      {imageSources.map((obj) =>
-        obj.src.map((data, index) => (
-          <ImageContainer key={index}>
-            <ImageCard>
-              <ImageElement
-                src={data}
-                alt={`Image ${index + 1}`}
-                sizes="stretch"
-              />
-              <ImageOverlay className="image-overlay">
-                <Description className="description">{obj.breed}</Description>
-                <LikeButton
-                  className="like-button"
-                  onClick={() => handleLikeClicked(obj.breed, data)}
-                >
-                  Like
-                </LikeButton>
-              </ImageOverlay>
-            </ImageCard>
-          </ImageContainer>
-        )),
-      )}
+      {sources.map((obj, index) => (
+        <ImageContainer key={index}>
+          <ImageCard>
+            <ImageElement
+              src={obj.src}
+              alt={`Image ${index + 1}`}
+              sizes="stretch"
+            />
+            <ImageOverlay className="image-overlay">
+              <Description
+                className="description"
+                style={{ cursor: 'default' }}
+              >
+                {obj.breed}
+              </Description>
+              <LikeButton
+                className="like-button"
+                onClick={() => handleLikeClicked(obj.breed, obj.src, obj)}
+              >
+                Like
+              </LikeButton>
+            </ImageOverlay>
+          </ImageCard>
+        </ImageContainer>
+      ))}
     </FeedContainer>
   );
 };

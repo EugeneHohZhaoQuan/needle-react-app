@@ -22,4 +22,16 @@ const getBreedImage = async (breed: string) => {
   }
 };
 
-export { getBreedList, getBreedImage };
+const getBreedOnlyImage = async (breed: string) => {
+  try {
+    const response = await axios.get(
+      `https://dog.ceo/api/breed/${breed}/images/random`,
+    );
+
+    return response.data.message;
+  } catch (err: any) {
+    console.log(err);
+  }
+};
+
+export { getBreedList, getBreedImage, getBreedOnlyImage };
