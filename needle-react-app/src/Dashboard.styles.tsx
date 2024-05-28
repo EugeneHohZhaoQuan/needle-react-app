@@ -1,7 +1,11 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 interface DropdownProps {
   isOpen: boolean;
+}
+
+interface TitleProps {
+  selected?: boolean;
 }
 
 export const Dropdown = styled.div`
@@ -74,3 +78,57 @@ export const CheckboxInput = styled.input`
 `;
 
 export const DashboardContainer = styled.div``;
+
+export const Title = styled.button<TitleProps>`
+  font-size: larger;
+  font-weight: 500;
+  padding: 8px 16px;
+  margin: 0 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  color: gray;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0; /* Default width set to 0 */
+    border-bottom: 4px solid;
+    transition: width 0.5s ease-out;
+  }
+
+  ${(props) =>
+    props.selected &&
+    css`
+      color: black;
+
+      &:after {
+        color: black;
+        width: 28%; /* Width when selected */
+      }
+    `}
+
+  &:hover:after {
+    ${(props) =>
+      props.selected &&
+      css`
+        width: 43%; /* Width on hover if selected */
+      `}
+  }
+`;
+
+export const TitleContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 8px 0;
+`;

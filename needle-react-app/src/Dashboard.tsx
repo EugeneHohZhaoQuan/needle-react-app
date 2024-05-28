@@ -12,11 +12,16 @@ import {
   CheckboxGrid,
   CheckboxInput,
   CheckboxItem,
+  TitleContainer,
+  Title,
 } from './Dashboard.styles';
 
 import { PrimaryButton } from './button.styles';
 
+import settingsIcon from './assets/settings.svg';
+
 import Feed from './Feed';
+import Favourite from './Favourite';
 
 export const Dashboard = () => {
   const username = useSelector((state: RootState) => selectUsername(state));
@@ -28,6 +33,7 @@ export const Dashboard = () => {
   const [checkBoxFlag, setCheckBoxFlag] = useState(false);
   const [showSelection, setShowSelection] = useState(false);
   const [showFeed, setShowFeed] = useState(false);
+  const [show, setShow] = useState('feed');
 
   useEffect(() => {
     fetchBreeds();
@@ -99,15 +105,14 @@ export const Dashboard = () => {
     );
   };
 
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
-  };
-
   return (
     <>
       <DashboardContainer>
-        <PrimaryButton onClick={() => setShowSelection(!showSelection)}>
-          Show Selection
+        <PrimaryButton
+          style={{ width: 'fit-content', padding: '10px' }}
+          onClick={() => setShowSelection(!showSelection)}
+        >
+          <img src={settingsIcon} alt="Settings Icon" />
         </PrimaryButton>
         {showSelection && (
           <div>
@@ -115,10 +120,7 @@ export const Dashboard = () => {
             <CheckboxGrid>
               {breeds.length > 0 &&
                 breeds.map((option, index) => (
-                  <CheckboxItem
-                    key={index}
-                    //onClick={() => handleCheckboxChange(option)}
-                  >
+                  <CheckboxItem key={index}>
                     <CheckboxInput
                       type="checkbox"
                       value={option}
@@ -135,7 +137,34 @@ export const Dashboard = () => {
           </div>
         )}
 
-        {showFeed && <Feed selectedBreeds={selectedBreeds} />}
+        <>
+          <TitleContainer>
+            <Title
+              onClick={() => {
+                setShow('feed');
+              }}
+              selected={show === 'feed' ? true : false}
+            >
+              For You
+            </Title>
+            <Title
+              onClick={() => setShow('fav')}
+              selected={show === 'fav' ? true : false}
+            >
+              Favourite
+            </Title>
+          </TitleContainer>
+        </>
+        {showFeed && show === 'feed' && (
+          <div>
+            <Feed selectedBreeds={selectedBreeds} />
+          </div>
+        )}
+        {showFeed && show === 'fav' && (
+          <div>
+            <Favourite />
+          </div>
+        )}
       </DashboardContainer>
     </>
   );
