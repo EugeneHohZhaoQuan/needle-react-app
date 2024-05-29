@@ -21,6 +21,10 @@ export const FeedContainer = styled.div`
   @media (max-width: 768px) {
     column-count: 1;
   } */
+  /* 
+  max-height: 71vh;
+  overflow-y: scroll; */
+
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(236px, 1fr));
 `;

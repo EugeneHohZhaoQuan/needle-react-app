@@ -3,15 +3,21 @@ import styled from 'styled-components';
 
 export const LayoutContainer = styled.div`
   display: flex;
+  height: 100vh;
+  /* flex-direction: column;
+  height: 100vh;
+  margin: 0;
+  padding: 0; */
 `;
 
 export const MainContent = styled.div`
   flex: 1;
   padding: 20px;
-  height: 100vh;
+  overflow-y: auto;
 `;
 
 export const MainContainer = styled.div`
-  display: grid;
-  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 `;

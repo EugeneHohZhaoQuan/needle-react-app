@@ -12,7 +12,7 @@ const Layout = ({ children }: LayoutProps) => {
     <LayoutContainer>
       <Sidebar />
       <MainContainer>
-        <Header />
+        {/* <Header /> */}
         <MainContent>{children}</MainContent>
       </MainContainer>
     </LayoutContainer>
