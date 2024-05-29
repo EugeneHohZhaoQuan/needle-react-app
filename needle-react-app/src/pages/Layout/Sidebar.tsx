@@ -16,8 +16,8 @@ import { useNavigate } from 'react-router-dom';
 
 import logoutIcon from '../../assets/logout.svg';
 import homeIcon from '../../assets/home.svg';
-import userIcon from '../../assets/user.svg';
-import geatIcon from '../../assets/gear.svg';
+// import userIcon from '../../assets/user.svg';
+// import geatIcon from '../../assets/gear.svg';
 
 export const Sidebar = () => {
   const dispatch = useDispatch();
