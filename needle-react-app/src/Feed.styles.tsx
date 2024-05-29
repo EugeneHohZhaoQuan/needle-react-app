@@ -34,6 +34,11 @@ export const ImageContainer = styled.div`
   height: fit-content;
 `;
 
+export const ListContainer = styled.div`
+  display: grid;
+  justify-content: center;
+`;
+
 export const ImageCard = styled.div`
   /* box-shadow: 1px 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;
@@ -130,5 +135,34 @@ export const ImageOverlay = styled.div`
 
   &:hover {
     opacity: 1;
+  }
+`;
+
+export const ToggleContainer = styled.div`
+  display: flex;
+  justify-content: end;
+  margin: 20px;
+`;
+
+export const ToggleButton = styled.button<{ active: boolean }>`
+  background-color: ${({ active }) => (active ? '#f3b64c' : '#f1f1f1')};
+  border: none;
+  color: ${({ active }) => (active ? '#000' : '#f3b64c')};
+  padding: 5px 15px;
+  cursor: pointer;
+  font-size: 12px;
+  margin: 0 5px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  box-shadow: ${({ active }) =>
+    active ? '0 4px 8px rgba(0, 0, 0, 0.2)' : 'none'};
+
+  &:hover {
+    background-color: #e3960f;
+    color: #fff;
+  }
+
+  &:focus {
+    outline: none;
   }
 `;

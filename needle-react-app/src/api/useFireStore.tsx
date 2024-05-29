@@ -14,7 +14,7 @@ import {
 
 const saveLike = async (username: string, breed: string, src: string) => {
   try {
-    await addDoc(collection(firestore, 'likes'), {
+    await addDoc(collection(firestore, 'liked_images'), {
       username,
       breed,
       src,
@@ -44,7 +44,7 @@ const saveFavoritedBreeds = async (username: string, breeds: string[]) => {
 const getUserLikes = async (username: string) => {
   try {
     const q = query(
-      collection(firestore, 'likes'),
+      collection(firestore, 'liked_images'),
       where('username', '==', username),
     );
     const querySnapshot = await getDocs(q);

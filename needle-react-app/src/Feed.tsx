@@ -16,6 +16,9 @@ import {
   ImageOverlay,
   Description,
   ImageElement,
+  ToggleContainer,
+  ToggleButton,
+  ListContainer,
 } from './Feed.styles';
 import { PrimaryButton, SecondaryButton } from './button.styles';
 
@@ -23,6 +26,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from './store/store';
 import { selectUsername } from './store/userSlice';
 
+import gridIcon from './assets/grid.svg';
+import flatIcon from './assets/flat.svg';
 interface FeedProps {
   selectedBreeds: string[];
 }
@@ -42,21 +47,26 @@ export const Feed = ({ selectedBreeds }: FeedProps) => {
   const username = useSelector((state: RootState) => selectUsername(state));
 
   const [imageSources, setImageSources] = useState<ImageSource[]>([]);
+
   const [sources, setSources] = useState<Source[]>([]);
+  const [listSources, setListSources] = useState<Source[]>([]);
+
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const [type, setType] = useState('grid');
+
+  const fetchImageSources = async () => {
+    const sources = await Promise.all(
+      selectedBreeds.map(async (breed) => ({
+        breed,
+        src: await fetchBreedImage(breed),
+      })),
+    );
+
+    setImageSources(sources);
+  };
+
   useEffect(() => {
-    const fetchImageSources = async () => {
-      const sources = await Promise.all(
-        selectedBreeds.map(async (breed) => ({
-          breed,
-          src: await fetchBreedImage(breed),
-        })),
-      );
-
-      setImageSources(sources);
-    };
-
     fetchImageSources();
   }, [selectedBreeds]);
 
@@ -79,6 +89,22 @@ export const Feed = ({ selectedBreeds }: FeedProps) => {
       })),
     );
 
+    let flattenedResult = imageSources.flatMap((item: any) =>
+      item.src.map((src: string) => ({
+        breed: item.breed,
+        src: src,
+      })),
+    );
+    // Shuffle the array to mix breeds
+    flattenedResult = flattenedResult.sort(() => Math.random() - 0.5);
+
+    let j = 1;
+    const sourcesWithNo = flattenedResult.map((item, index) => ({
+      no: j++,
+      ...item,
+    }));
+
+    setListSources(sourcesWithNo);
     setSources(shuffleArray(result));
   }, [imageSources]);
 
@@ -109,44 +135,94 @@ export const Feed = ({ selectedBreeds }: FeedProps) => {
         prevData.no === data.no ? { ...prevData, src: newSrc } : prevData,
       ),
     );
-
-    // setImageSources((prevSources) =>
-    //   prevSources.map((source, index) =>
-    //     index === currentIndex ? { ...source, src: newSrc } : source,
-    //   ),
-    // );
-
-    // setCurrentIndex((prevIndex) => (prevIndex + 1) % imageSources.length);
   };
 
+  const handleListLike = async () => {
+    if (username)
+      await saveLike(
+        username,
+        listSources[currentIndex].breed,
+        listSources[currentIndex].src,
+      );
+
+    setCurrentIndex((prevIndex) => prevIndex + 1);
+  };
+
+  useEffect(() => {
+    if (type === 'list' && currentIndex === listSources.length) {
+      setCurrentIndex(0);
+      fetchImageSources();
+    }
+  }, [currentIndex]);
+
   return (
-    <FeedContainer>
-      {sources.map((obj, index) => (
-        <ImageContainer key={index}>
-          <ImageCard>
-            <ImageElement
-              src={obj.src}
-              alt={`Image ${index + 1}`}
-              sizes="stretch"
-            />
-            <ImageOverlay className="image-overlay">
-              <Description
-                className="description"
-                style={{ cursor: 'default' }}
-              >
-                {obj.breed}
-              </Description>
+    <>
+      <ToggleContainer>
+        <ToggleButton active={type === 'grid'} onClick={() => setType('grid')}>
+          <img src={gridIcon} alt="Settings Icon" />
+        </ToggleButton>
+        <ToggleButton active={type === 'list'} onClick={() => setType('list')}>
+          <img src={flatIcon} alt="Settings Icon" />
+        </ToggleButton>
+      </ToggleContainer>
+
+      {type === 'grid' && (
+        <FeedContainer>
+          {sources.map((obj, index) => (
+            <ImageContainer key={index}>
+              <ImageCard>
+                <ImageElement
+                  src={obj.src}
+                  alt={`Image ${index + 1}`}
+                  sizes="stretch"
+                />
+                <ImageOverlay className="image-overlay">
+                  <Description
+                    className="description"
+                    style={{ cursor: 'default' }}
+                  >
+                    {obj.breed}
+                  </Description>
+                  <LikeButton
+                    className="like-button"
+                    onClick={() => handleLikeClicked(obj.breed, obj.src, obj)}
+                  >
+                    Like
+                  </LikeButton>
+                </ImageOverlay>
+              </ImageCard>
+            </ImageContainer>
+          ))}
+        </FeedContainer>
+      )}
+      {type === 'list' && listSources.length > 0 && (
+        <ListContainer>
+          <ImageContainer>
+            <ImageCard>
+              <ImageElement
+                style={{ height: '400px' }}
+                src={listSources[currentIndex]?.src}
+                alt={`Image ${currentIndex + 1}`}
+                sizes="fill"
+              />
               <LikeButton
                 className="like-button"
-                onClick={() => handleLikeClicked(obj.breed, obj.src, obj)}
+                style={{ left: '20%' }}
+                onClick={() => setCurrentIndex((prevIndex) => prevIndex + 1)}
+              >
+                Next
+              </LikeButton>
+              <LikeButton
+                className="like-button"
+                onClick={() => handleListLike()}
               >
                 Like
               </LikeButton>
-            </ImageOverlay>
-          </ImageCard>
-        </ImageContainer>
-      ))}
-    </FeedContainer>
+            </ImageCard>
+          </ImageContainer>
+        </ListContainer>
+      )}
+    </>
   );
 };
 
