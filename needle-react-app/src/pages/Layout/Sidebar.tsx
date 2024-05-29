@@ -43,14 +43,14 @@ export const Sidebar = () => {
           <img src={homeIcon} alt="Heart Icon" />
           Feed
         </Content>
-        <Content>
+        {/* <Content>
           <img src={geatIcon} alt="Heart Icon" />
           About
         </Content>
         <Content>
           <img src={userIcon} alt="Heart Icon" />
           Contact
-        </Content>
+        </Content> */}
 
         <ButtonContainer>
           <img src={logoutIcon} alt="Heart Icon" />

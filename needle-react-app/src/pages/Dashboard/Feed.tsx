@@ -14,6 +14,7 @@ import {
   ToggleContainer,
   ToggleButton,
   ListContainer,
+  TextContainer,
 } from './Feed.styles';
 
 import { useSelector } from 'react-redux';
@@ -151,6 +152,12 @@ export const Feed = ({ selectedBreeds }: FeedProps) => {
     }
   }, [currentIndex]);
 
+  const handleReload = () => {
+    // e.preventDefault();
+    fetchImageSources();
+    window.scrollTo(0, 0);
+  };
+
   return (
     <>
       <ToggleContainer>
@@ -163,33 +170,43 @@ export const Feed = ({ selectedBreeds }: FeedProps) => {
       </ToggleContainer>
 
       {type === 'grid' && (
-        <FeedContainer>
-          {sources.map((obj, index) => (
-            <ImageContainer key={index}>
-              <ImageCard>
-                <ImageElement
-                  src={obj.src}
-                  alt={`Image ${index + 1}`}
-                  sizes="stretch"
-                />
-                <ImageOverlay className="image-overlay">
-                  <Description
-                    className="description"
-                    style={{ cursor: 'default' }}
-                  >
-                    {obj.breed}
-                  </Description>
-                  <LikeButton
-                    className="like-button"
-                    onClick={() => handleLikeClicked(obj.breed, obj.src, obj)}
-                  >
-                    <img src={heartIcon} alt="Heart Icon" />
-                  </LikeButton>
-                </ImageOverlay>
-              </ImageCard>
-            </ImageContainer>
-          ))}
-        </FeedContainer>
+        <div>
+          <FeedContainer>
+            {sources.map((obj, index) => (
+              <ImageContainer key={index}>
+                <ImageCard>
+                  <ImageElement
+                    src={obj.src}
+                    alt={`Image ${index + 1}`}
+                    sizes="stretch"
+                  />
+                  <ImageOverlay className="image-overlay">
+                    <Description
+                      className="description"
+                      style={{ cursor: 'default' }}
+                    >
+                      {obj.breed}
+                    </Description>
+                    <LikeButton
+                      className="like-button"
+                      onClick={() => handleLikeClicked(obj.breed, obj.src, obj)}
+                    >
+                      <img src={heartIcon} alt="Heart Icon" />
+                    </LikeButton>
+                  </ImageOverlay>
+                </ImageCard>
+              </ImageContainer>
+            ))}
+          </FeedContainer>
+          <TextContainer>
+            you have reached the end, click
+            <a href="#" onClick={handleReload} style={{ margin: '0 5px' }}>
+              {' '}
+              reload{' '}
+            </a>
+            to load more
+          </TextContainer>
+        </div>
       )}
       {type === 'list' && listSources.length > 0 && (
         <ListContainer>

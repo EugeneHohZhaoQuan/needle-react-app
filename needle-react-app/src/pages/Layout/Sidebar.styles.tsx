@@ -1,8 +1,7 @@
 import styled, { css } from 'styled-components';
 
 export const SidebarContainer = styled.div`
-  width: 200px;
-  height: 100%;
+  width: 100%;
   background: #000;
   display: flex;
   flex-direction: column;
@@ -58,6 +57,7 @@ export const Content = styled.div<{ selected?: boolean }>`
 
 export const Container = styled.div`
   display: flex;
+  height: 100vh;
 `;
 
 export const ButtonContainer = styled.div`

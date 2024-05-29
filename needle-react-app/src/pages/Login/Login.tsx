@@ -83,9 +83,9 @@ function Login() {
     <MainContainer>
       <LoginContainer>
         {login && (
-          <div>
-            <h1>Login</h1>
-            <h3>Enter your credentials</h3>
+          <div style={{ marginBottom: '34px' }}>
+            <h1>Welcome back</h1>
+            <h3>Please enter your credentials</h3>
             <InputContainer>
               {!isValid && (
                 <p style={{ color: 'red' }}>
@@ -142,7 +142,7 @@ function Login() {
         )}
 
         {!login && (
-          <div>
+          <div style={{ marginBottom: '19px' }}>
             <h2>Create an account</h2>
             {!isValid && (
               <p style={{ color: 'red' }}>

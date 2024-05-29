@@ -170,3 +170,11 @@ export const ToggleButton = styled.button<{ active: boolean }>`
     outline: none;
   }
 `;
+
+export const TextContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-content: center;
+
+  margin-top: 15px;
+`;
