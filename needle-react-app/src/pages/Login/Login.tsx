@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth } from './firebaseConfig';
+import { auth } from '../../firebaseConfig';
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -11,16 +11,19 @@ import {
 } from 'firebase/auth';
 
 import { useDispatch } from 'react-redux';
-import { setUsername, clearUsername } from './store/userSlice';
+import { setUsername, clearUsername } from '../../store/userSlice';
 
 import {
   MainContainer,
   LoginContainer,
   ButtonContainer,
   InputContainer,
-} from './main.styles';
-import { PrimaryButton, SecondaryButton } from './button.styles';
-import { MainInput, Label } from './input.styles';
+} from '../../main.styles';
+import {
+  PrimaryButton,
+  SecondaryButton,
+} from '../../components/button/button.styles';
+import { MainInput, Label } from '../../components/input/input.styles';
 
 const isValidEmail = (email: string) => {
   // Regular expression for email validation

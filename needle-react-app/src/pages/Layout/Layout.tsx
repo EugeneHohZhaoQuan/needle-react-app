@@ -1,5 +1,4 @@
 import React from 'react';
-import { Header } from './Header';
 import { LayoutContainer, MainContent, MainContainer } from './Layout.styles';
 import { Sidebar } from './Sidebar';
 
@@ -12,7 +11,6 @@ const Layout = ({ children }: LayoutProps) => {
     <LayoutContainer>
       <Sidebar />
       <MainContainer>
-        <Header />
         <MainContent>{children}</MainContent>
       </MainContainer>
     </LayoutContainer>

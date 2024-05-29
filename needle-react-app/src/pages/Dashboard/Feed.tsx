@@ -4,8 +4,8 @@ import {
   getBreedList,
   getBreedImage,
   getBreedOnlyImage,
-} from './api/useDataApi';
-import { saveLike } from './api/useFireStore';
+} from '../../api/useDataApi';
+import { saveLike } from '../../api/useFireStore';
 
 import {
   FeedContainer,
@@ -20,15 +20,18 @@ import {
   ToggleButton,
   ListContainer,
 } from './Feed.styles';
-import { PrimaryButton, SecondaryButton } from './button.styles';
+import {
+  PrimaryButton,
+  SecondaryButton,
+} from '../../components/button/button.styles';
 
 import { useSelector } from 'react-redux';
-import { RootState } from './store/store';
-import { selectUsername } from './store/userSlice';
+import { RootState } from '../../store/store';
+import { selectUsername } from '../../store/userSlice';
 
-import gridIcon from './assets/grid.svg';
-import flatIcon from './assets/flat.svg';
-import heartIcon from './assets/heart.svg';
+import gridIcon from '../../assets/grid.svg';
+import flatIcon from '../../assets/flat.svg';
+import heartIcon from '../../assets/heart.svg';
 
 interface FeedProps {
   selectedBreeds: string[];

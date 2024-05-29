@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { getUserLikes } from './api/useFireStore';
+import { getUserLikes } from '../../api/useFireStore';
 
 import { useSelector } from 'react-redux';
-import { RootState } from './store/store';
-import { selectUsername } from './store/userSlice';
+import { RootState } from '../../store/store';
+import { selectUsername } from '../../store/userSlice';
 
 import {
   FeedContainer,

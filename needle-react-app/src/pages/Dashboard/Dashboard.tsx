@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 
 import { useSelector } from 'react-redux';
-import { RootState } from './store/store';
-import { selectUsername } from './store/userSlice';
+import { RootState } from '../../store/store';
+import { selectUsername } from '../../store/userSlice';
 
-import { getBreedList, getBreedImage } from './api/useDataApi';
-import { getFavoritedBreeds, saveFavoritedBreeds } from './api/useFireStore';
+import { getBreedList, getBreedImage } from '../../api/useDataApi';
+import {
+  getFavoritedBreeds,
+  saveFavoritedBreeds,
+} from '../../api/useFireStore';
 
 import {
   DashboardContainer,
@@ -16,9 +19,9 @@ import {
   Title,
 } from './Dashboard.styles';
 
-import { PrimaryButton } from './button.styles';
+import { PrimaryButton } from '../../components/button/button.styles';
 
-import settingsIcon from './assets/settings.svg';
+import settingsIcon from '../../assets/settings.svg';
 
 import Feed from './Feed';
 import Favourite from './Favourite';

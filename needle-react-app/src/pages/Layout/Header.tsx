@@ -1,8 +1,8 @@
-import { auth } from './firebaseConfig';
+import { auth } from '../../firebaseConfig';
 import { signOut } from 'firebase/auth';
 
 import { useDispatch } from 'react-redux';
-import { clearUsername } from './store/userSlice';
+import { clearUsername } from '../../store/userSlice';
 import { useNavigate } from 'react-router-dom';
 
 import { HeaderContainer, LogoutButton } from './Header.styles';
