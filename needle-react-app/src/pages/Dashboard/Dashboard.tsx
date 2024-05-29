@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { selectUsername } from '../../store/userSlice';
 
-import { getBreedList, getBreedImage } from '../../api/useDataApi';
+import { getBreedList } from '../../api/useDataApi';
 import {
   getFavoritedBreeds,
   saveFavoritedBreeds,
@@ -17,6 +17,7 @@ import {
   CheckboxItem,
   TitleContainer,
   Title,
+  SelectionContainer,
 } from './Dashboard.styles';
 
 import { PrimaryButton } from '../../components/button/button.styles';
@@ -31,8 +32,8 @@ export const Dashboard = () => {
 
   const [breeds, setBreeds] = useState<string[]>([]);
   const [selectedBreeds, setSelectedBreeds] = useState<string[]>([]);
-  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
-  const [imageSources, setImageSources] = useState<string[]>([]);
+  // const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
+  // const [imageSources, setImageSources] = useState<string[]>([]);
   const [checkBoxFlag, setCheckBoxFlag] = useState(false);
   const [showSelection, setShowSelection] = useState(false);
   const [showFeed, setShowFeed] = useState(false);
@@ -60,25 +61,26 @@ export const Dashboard = () => {
   }, [username]);
 
   useEffect(() => {
-    const fetchImageSources = async () => {
-      const sources = await Promise.all(
-        selectedBreeds.map((breed) => fetchBreedImage(breed)),
-      );
-      setImageSources(sources);
-    };
+    // const fetchImageSources = async () => {
+    //   const sources = await Promise.all(
+    //     selectedBreeds.map((breed) => fetchBreedImage(breed)),
+    //   );
+    //   setImageSources(sources);
+    // };
 
     const saveSelectedBreeds = async (username: string) => {
       await saveFavoritedBreeds(username, selectedBreeds);
       setShowFeed(true);
     };
 
-    fetchImageSources();
+    // fetchImageSources();
 
     if (selectedBreeds.length < 3) {
       setCheckBoxFlag(false);
     } else {
       setCheckBoxFlag(true);
       if (username) saveSelectedBreeds(username);
+      setShowSelection(false);
     }
   }, [selectedBreeds]);
 
@@ -94,11 +96,11 @@ export const Dashboard = () => {
     }
   };
 
-  const fetchBreedImage = async (breed: string) => {
-    const img = await getBreedImage(breed);
+  // const fetchBreedImage = async (breed: string) => {
+  //   const img = await getBreedImage(breed);
 
-    return img;
-  };
+  //   return img;
+  // };
 
   const handleCheckboxChange = (breed: string) => {
     setSelectedBreeds((prevSelectedBreeds) =>
@@ -118,8 +120,8 @@ export const Dashboard = () => {
           <img src={settingsIcon} alt="Settings Icon" />
         </PrimaryButton>
         {showSelection && (
-          <div>
-            <h2>Select dog breeds:</h2>
+          <SelectionContainer>
+            <h2>Hey, please select some dog breeds</h2>
             <CheckboxGrid>
               {breeds.length > 0 &&
                 breeds.map((option, index) => (
@@ -137,7 +139,7 @@ export const Dashboard = () => {
                   </CheckboxItem>
                 ))}
             </CheckboxGrid>
-          </div>
+          </SelectionContainer>
         )}
 
         <>

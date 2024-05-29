@@ -1,7 +1,6 @@
 // firestore.js
 import { firestore } from '../firebaseConfig';
 import {
-  getFirestore,
   addDoc,
   doc,
   getDoc,

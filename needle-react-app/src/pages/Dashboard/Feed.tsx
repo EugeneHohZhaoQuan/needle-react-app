@@ -1,17 +1,12 @@
 import { useEffect, useState } from 'react';
 
-import {
-  getBreedList,
-  getBreedImage,
-  getBreedOnlyImage,
-} from '../../api/useDataApi';
+import { getBreedImage, getBreedOnlyImage } from '../../api/useDataApi';
 import { saveLike } from '../../api/useFireStore';
 
 import {
   FeedContainer,
   ImageContainer,
   ImageCard,
-  FeedButtonContainer,
   LikeButton,
   ImageOverlay,
   Description,
@@ -20,10 +15,6 @@ import {
   ToggleButton,
   ListContainer,
 } from './Feed.styles';
-import {
-  PrimaryButton,
-  SecondaryButton,
-} from '../../components/button/button.styles';
 
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
@@ -86,7 +77,7 @@ export const Feed = ({ selectedBreeds }: FeedProps) => {
       return array;
     }
 
-    const result = imageSources.flatMap((item, index) =>
+    const result = imageSources.flatMap((item) =>
       item.src.map((src) => ({
         no: i++,
         breed: item.breed,
@@ -104,7 +95,7 @@ export const Feed = ({ selectedBreeds }: FeedProps) => {
     flattenedResult = flattenedResult.sort(() => Math.random() - 0.5);
 
     let j = 1;
-    const sourcesWithNo = flattenedResult.map((item, index) => ({
+    const sourcesWithNo = flattenedResult.map((item) => ({
       no: j++,
       ...item,
     }));
@@ -136,7 +127,7 @@ export const Feed = ({ selectedBreeds }: FeedProps) => {
     const newSrc = await fetchOnlyBreedImage(currentSource.breed);
 
     setSources((prev) =>
-      prev.map((prevData, index) =>
+      prev.map((prevData) =>
         prevData.no === data.no ? { ...prevData, src: newSrc } : prevData,
       ),
     );

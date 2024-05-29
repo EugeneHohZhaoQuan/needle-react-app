@@ -1,17 +1,15 @@
 // src/App.tsx
 
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../../firebaseConfig';
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  signOut,
-  User,
 } from 'firebase/auth';
 
 import { useDispatch } from 'react-redux';
-import { setUsername, clearUsername } from '../../store/userSlice';
+import { setUsername } from '../../store/userSlice';
 
 import {
   MainContainer,
@@ -19,10 +17,7 @@ import {
   ButtonContainer,
   InputContainer,
 } from '../../main.styles';
-import {
-  PrimaryButton,
-  SecondaryButton,
-} from '../../components/button/button.styles';
+import { PrimaryButton } from '../../components/button/button.styles';
 import { MainInput, Label } from '../../components/input/input.styles';
 
 const isValidEmail = (email: string) => {
@@ -38,7 +33,7 @@ function Login() {
   const [isValid, setIsValid] = useState(true);
 
   const [password, setPassword] = useState<string>('');
-  const [user, setUser] = useState<User | null>(null);
+  // const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const navigate = useNavigate();
@@ -69,12 +64,8 @@ function Login() {
 
   const handleSignUp = async () => {
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      );
-      setUser(userCredential.user);
+      await createUserWithEmailAndPassword(auth, email, password);
+      // setUser(userCredential.user);
       setLogin(true);
       reset();
     } catch (error: any) {

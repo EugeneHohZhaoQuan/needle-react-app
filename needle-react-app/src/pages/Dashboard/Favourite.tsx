@@ -9,8 +9,6 @@ import {
   FeedContainer,
   ImageContainer,
   ImageCard,
-  FeedButtonContainer,
-  LikeButton,
   ImageOverlay,
   Description,
   ImageElement,

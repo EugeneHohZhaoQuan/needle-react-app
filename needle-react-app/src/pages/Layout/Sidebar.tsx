@@ -37,7 +37,7 @@ export const Sidebar = () => {
     <Container>
       <SidebarContainer>
         <Logo>
-          <a>logo</a>
+          <a>woofwoof</a>
         </Logo>
         <Content selected={true}>
           <img src={homeIcon} alt="Heart Icon" />

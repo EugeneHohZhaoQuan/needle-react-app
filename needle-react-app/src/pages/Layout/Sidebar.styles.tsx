@@ -9,9 +9,9 @@ export const SidebarContainer = styled.div`
   justify-content: start;
 `;
 
-export const Logo = styled.h1`
-  text-align: center;
-  padding: 0;
+export const Logo = styled.h2`
+  text-align: left;
+  padding-left: 20px;
   margin: 0;
 
   a {
@@ -28,26 +28,6 @@ export const Logo = styled.h1`
 `;
 
 export const Content = styled.div<{ selected?: boolean }>`
-  /* padding: 1.1em 0;
-  padding-left: 20px;
-  font-size: medium;
-  font-weight: 500;
-  text-align: left;
-  width: 100%;
-  color: #fff;
-
-  &:hover {
-    color: #9b660a;
-  }
-
-  ${(props) =>
-    props.selected &&
-    css`
-      font-weight: bolder;
-
-      color: #9b660a;
-    `} */
-
   display: flex;
   align-items: center;
   padding: 1.1em 0;

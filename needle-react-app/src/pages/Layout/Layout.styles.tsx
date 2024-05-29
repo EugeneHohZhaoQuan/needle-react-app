@@ -14,6 +14,7 @@ export const MainContent = styled.div`
   flex: 1;
   padding: 20px;
   overflow-y: auto;
+  background-color: #fafafa;
 `;
 
 export const MainContainer = styled.div`
