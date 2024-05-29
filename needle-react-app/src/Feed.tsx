@@ -28,6 +28,8 @@ import { selectUsername } from './store/userSlice';
 
 import gridIcon from './assets/grid.svg';
 import flatIcon from './assets/flat.svg';
+import heartIcon from './assets/heart.svg';
+
 interface FeedProps {
   selectedBreeds: string[];
 }
@@ -187,7 +189,7 @@ export const Feed = ({ selectedBreeds }: FeedProps) => {
                     className="like-button"
                     onClick={() => handleLikeClicked(obj.breed, obj.src, obj)}
                   >
-                    Like
+                    <img src={heartIcon} alt="Heart Icon" />
                   </LikeButton>
                 </ImageOverlay>
               </ImageCard>
@@ -216,7 +218,7 @@ export const Feed = ({ selectedBreeds }: FeedProps) => {
                 className="like-button"
                 onClick={() => handleListLike()}
               >
-                Like
+                <img src={heartIcon} alt="Heart Icon" />
               </LikeButton>
             </ImageCard>
           </ImageContainer>
